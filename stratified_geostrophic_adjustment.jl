@@ -49,21 +49,27 @@ filename = "stratified_geostrophic_adjustment.jld2"
 file=jldopen(filename)
 
 xw, yw, zw = nodes((Center, Center, Face), grid)
+xv, yv, zv = nodes((Center, Face, Center), grid)
 xb, yb, zb = nodes((Center, Center, Center), grid)
 
 iter = Observable(0)
 iters = parse.(Int, keys(file["timeseries/t"]))
 w_field = @lift file["timeseries/w/" * string($iter)][:, 1, :]
 b_field = @lift file["timeseries/b/" * string($iter)][:, 1, :]
+v_field = @lift file["timeseries/v/" * string($iter)][:, 1, :]
 fig = Figure(resolution = (2000, 1000))
 title_w = @lift(@sprintf("w at time = %s", prettytime(file["timeseries/t/" * string($iter)])))
 title_b = @lift(@sprintf("b at time = %s", prettytime(file["timeseries/t/" * string($iter)])))
+title_v = @lift(@sprintf("v at time = %s", prettytime(file["timeseries/t/" * string($iter)])))
 ax_w = Axis(fig[1,1], xlabel = "x (km)", ylabel = "z (km)", title=title_w)
 ax_b = Axis(fig[2,1], xlabel = "x (km)", ylabel = "z (km)", title=title_b)
+ax_v = Axis(fig[3,1], xlabel = "x (km)", ylabel = "z (km)", title=title_v)
 heatmap_w = heatmap!(ax_w, xw/kilometers, zw/kilometers, w_field, colormap=:balance)
 heatmap_b = heatmap!(ax_b, xb/kilometers, zb/kilometers, b_field, colormap=:balance)
+heatmap_v = heatmap!(ax_v, xv/kilometers, zv/kilometers, v_field, colormap=:balance)
 Colorbar(fig[1,2], heatmap_w, label="w", width=25)
 Colorbar(fig[2,2], heatmap_b, label="b", width=25)
+Colorbar(fig[3,2], heatmap_v, label="v", width=25)
 display(fig)
 
 output_prefix = "stratified_geostrophic_adjustment"
