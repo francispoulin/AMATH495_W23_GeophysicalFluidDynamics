@@ -55,8 +55,8 @@ model = NonhydrostaticModel(
 f = model.coriolis.fz
 d = sqrt(2*νz/f)
              
-u_Ek(x, y, z) = -sqrt(2)/(f*d)*τ*exp.(z/d).*cos.(z/d .- π/4)
-v_Ek(x, y, z) = -sqrt(2)/(f*d)*τ*exp.(z/d).*sin.(z/d .- π/4)
+u_Ek(x, z) = -sqrt(2)/(f*d)*τ*exp.(z/d).*cos.(z/d .- π/4)
+v_Ek(x, z) = -sqrt(2)/(f*d)*τ*exp.(z/d).*sin.(z/d .- π/4)
 
 set!(model, u = u_Ek, v = v_Ek)
 
