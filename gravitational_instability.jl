@@ -13,12 +13,12 @@ const α  =  0.0   # Shear
 const f  =  0.0   # Rotation
 
 # Background Fields
-B(x, y, z, t) = N² .* z
+B(x, z, t) = N² .* z
 #V(x, y, z, t) = α .* x
 
 # Initial Fields
-uᵢ(x, y, z) = 0.01*rand()
-bᵢ(x, y, z) = 0.0001*rand()
+uᵢ(x, z) = 0.01*rand()
+bᵢ(x, z) = 0.0001*rand()
 
 model = NonhydrostaticModel(; grid,
 			      background_fields = (b=B,),           # v = V
