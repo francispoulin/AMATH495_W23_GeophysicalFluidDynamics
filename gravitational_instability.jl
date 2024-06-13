@@ -60,8 +60,10 @@ run!(simulation)
 filename = "gravitational_instability.jld2"
 file=jldopen(filename)
 
-xw, yw, zw = nodes((Center, Center, Face), grid)
-xb, yb, zb = nodes((Center, Center, Center), grid)
+xw = xnodes(grid, Center())
+zw = znodes(grid, Face())
+xb = xnodes(grid, Center())
+zb = znodes(grid, Center())
 
 ### Make animation
 iter = Observable(0)
